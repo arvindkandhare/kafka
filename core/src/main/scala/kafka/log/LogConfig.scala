@@ -58,6 +58,7 @@ case class LogConfig(props: java.util.Map[_, _]) extends AbstractConfig(LogConfi
    * Important note: Any configuration parameter that is passed along from KafkaConfig to LogConfig
    * should also go in copyKafkaConfigToLog.
    */
+  val replicatedStorage = getBoolean(LogConfig.ReplicatedStorageProp)
   val segmentSize = getInt(LogConfig.SegmentBytesProp)
   val segmentMs = getLong(LogConfig.SegmentMsProp)
   val segmentJitterMs = getLong(LogConfig.SegmentJitterMsProp)
@@ -142,6 +143,10 @@ object LogConfig {
   val MessageTimestampTypeDoc = KafkaConfig.LogMessageTimestampTypeDoc
   val MessageTimestampDifferenceMaxMsDoc = KafkaConfig.LogMessageTimestampDifferenceMaxMsDoc
 
+  val ReplicatedStoragePropDoc: String = "Specify whether the underlying storage is replicated"
+
+  val ReplicatedStorageProp: String = "storage.replicated"
+
   private val configDef = {
     import org.apache.kafka.common.config.ConfigDef.Importance._
     import org.apache.kafka.common.config.ConfigDef.Range._
@@ -149,6 +154,7 @@ object LogConfig {
     import org.apache.kafka.common.config.ConfigDef.ValidString._
 
     new ConfigDef()
+      .define(ReplicatedStorageProp, BOOLEAN, false, MEDIUM, ReplicatedStoragePropDoc)
       .define(SegmentBytesProp, INT, Defaults.SegmentSize, atLeast(Message.MinMessageOverhead), MEDIUM, SegmentSizeDoc)
       .define(SegmentMsProp, LONG, Defaults.SegmentMs, atLeast(0), MEDIUM, SegmentMsDoc)
       .define(SegmentJitterMsProp, LONG, Defaults.SegmentJitterMs, atLeast(0), MEDIUM, SegmentJitterMsDoc)
