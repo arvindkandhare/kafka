@@ -146,6 +146,7 @@ class LogCleanerIntegrationTest(compressionCodec: String) {
                         LogConfig(logProps),
                         recoveryPoint = 0L,
                         scheduler = time.scheduler,
+                        partition = null,
                         time = time)
       logs.put(TopicAndPartition("log", i), log)      
     }

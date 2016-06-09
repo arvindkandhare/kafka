@@ -64,7 +64,7 @@ class LogManagerTest {
    */
   @Test
   def testCreateLog() {
-    val log = logManager.createLog(TopicAndPartition(name, 0), logConfig)
+    val log = logManager.createLog(TopicAndPartition(name, 0), logConfig, null)
     val logFile = new File(logDir, name + "-0")
     assertTrue(logFile.exists)
     log.append(TestUtils.singleMessageSet("test".getBytes()))
@@ -86,7 +86,7 @@ class LogManagerTest {
    */
   @Test
   def testCleanupExpiredSegments() {
-    val log = logManager.createLog(TopicAndPartition(name, 0), logConfig)
+    val log = logManager.createLog(TopicAndPartition(name, 0), logConfig, null)
     var offset = 0L
     for(i <- 0 until 200) {
       var set = TestUtils.singleMessageSet("test".getBytes())
@@ -129,7 +129,7 @@ class LogManagerTest {
     logManager.startup
 
     // create a log
-    val log = logManager.createLog(TopicAndPartition(name, 0), config)
+    val log = logManager.createLog(TopicAndPartition(name, 0), config, null)
     var offset = 0L
 
     // add a bunch of messages that should be larger than the retentionSize
@@ -170,7 +170,7 @@ class LogManagerTest {
 
     logManager = createLogManager()
     logManager.startup
-    val log = logManager.createLog(TopicAndPartition(name, 0), config)
+    val log = logManager.createLog(TopicAndPartition(name, 0), config, null)
     val lastFlush = log.lastFlushTime
     for(i <- 0 until 200) {
       var set = TestUtils.singleMessageSet("test".getBytes())
@@ -194,7 +194,7 @@ class LogManagerTest {
 
     // verify that logs are always assigned to the least loaded partition
     for(partition <- 0 until 20) {
-      logManager.createLog(TopicAndPartition("test", partition), logConfig)
+      logManager.createLog(TopicAndPartition("test", partition), logConfig, null)
       assertEquals("We should have created the right number of logs", partition + 1, logManager.allLogs.size)
       val counts = logManager.allLogs.groupBy(_.dir.getParent).values.map(_.size)
       assertTrue("Load should balance evenly", counts.max <= counts.min + 1)
@@ -252,7 +252,7 @@ class LogManagerTest {
 
   private def verifyCheckpointRecovery(topicAndPartitions: Seq[TopicAndPartition],
                                        logManager: LogManager) {
-    val logs = topicAndPartitions.map(this.logManager.createLog(_, logConfig))
+    val logs = topicAndPartitions.map(this.logManager.createLog(_, logConfig, null))
     logs.foreach(log => {
       for(i <- 0 until 50)
         log.append(TestUtils.singleMessageSet("test".getBytes()))

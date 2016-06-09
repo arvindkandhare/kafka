@@ -24,8 +24,10 @@ import kafka.utils._
 
 import scala.collection._
 import kafka.common.{KafkaException, TopicAndPartition}
-import kafka.server.{BrokerState, OffsetCheckpoint, RecoveringFromUncleanShutdown}
+import kafka.server.{BrokerState, KafkaServer, OffsetCheckpoint, RecoveringFromUncleanShutdown}
 import java.util.concurrent.{ExecutionException, ExecutorService, Executors, Future}
+
+import kafka.cluster.Partition
 
 /**
  * The entry point to the kafka log management subsystem. The log manager is responsible for log creation, retrieval, and cleaning.
@@ -48,6 +50,7 @@ class LogManager(val logDirs: Array[File],
                  val retentionCheckMs: Long,
                  scheduler: Scheduler,
                  val brokerState: BrokerState,
+                 val server: KafkaServer,
                  private val time: Time) extends Logging {
   val RecoveryPointCheckpointFile = "recovery-point-offset-checkpoint"
   val LockFile = ".lock"
@@ -149,7 +152,8 @@ class LogManager(val logDirs: Array[File],
           val config = topicConfigs.getOrElse(topicPartition.topic, defaultConfig)
           val logRecoveryPoint = recoveryPoints.getOrElse(topicPartition, 0L)
 
-          val current = new Log(logDir, config, logRecoveryPoint, scheduler, time)
+          val partition = server.replicaManager.getPartition(topicPartition.topic, topicPartition.partition).get
+          val current = new Log(logDir, config, logRecoveryPoint, scheduler, partition, time = time)
           val previous = this.logs.put(topicPartition, current)
 
           if (previous != null) {
@@ -348,7 +352,7 @@ class LogManager(val logDirs: Array[File],
    * Create a log for the given topic and the given partition
    * If the log already exists, just return a copy of the existing log
    */
-  def createLog(topicAndPartition: TopicAndPartition, config: LogConfig): Log = {
+  def createLog(topicAndPartition: TopicAndPartition, config: LogConfig, partition: Partition): Log = {
     logCreationOrDeletionLock synchronized {
       var log = logs.get(topicAndPartition)
       
@@ -364,6 +368,7 @@ class LogManager(val logDirs: Array[File],
                     config,
                     recoveryPoint = 0L,
                     scheduler,
+                    partition,
                     time)
       logs.put(topicAndPartition, log)
       info("Created log for partition [%s,%d] in %s with properties {%s}."

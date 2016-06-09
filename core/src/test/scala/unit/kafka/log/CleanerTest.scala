@@ -459,7 +459,7 @@ class CleanerTest extends JUnitSuite {
   
   
   def makeLog(dir: File = dir, config: LogConfig = logConfig) =
-    new Log(dir = dir, config = config, recoveryPoint = 0L, scheduler = time.scheduler, time = time)
+    new Log(dir = dir, config = config, recoveryPoint = 0L, scheduler = time.scheduler, partition = null, time = time)
 
   def noOpCheckDone(topicAndPartition: TopicAndPartition) { /* do nothing */  }
 

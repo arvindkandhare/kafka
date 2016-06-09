@@ -906,6 +906,7 @@ object TestUtils extends Logging {
                    retentionCheckMs = 1000L,
                    scheduler = time.scheduler,
                    time = time,
+                   null,
                    brokerState = new BrokerState())
   }
 

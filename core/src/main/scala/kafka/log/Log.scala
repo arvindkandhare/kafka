@@ -21,7 +21,7 @@ import kafka.utils._
 import kafka.message._
 import kafka.common._
 import kafka.metrics.KafkaMetricsGroup
-import kafka.server.{BrokerTopicStats, FetchDataInfo, LogOffsetMetadata}
+import kafka.server._
 import java.io.{File, IOException}
 import java.util.concurrent.{ConcurrentNavigableMap, ConcurrentSkipListMap}
 import java.util.concurrent.atomic._
@@ -32,6 +32,7 @@ import org.apache.kafka.common.record.TimestampType
 
 import scala.collection.JavaConversions
 import com.yammer.metrics.core.Gauge
+import kafka.cluster.Partition
 import org.apache.kafka.common.utils.Utils
 
 object LogAppendInfo {
@@ -79,6 +80,7 @@ class Log(val dir: File,
           @volatile var config: LogConfig,
           @volatile var recoveryPoint: Long = 0L,
           scheduler: Scheduler,
+          partition: Partition,
           time: Time = SystemTime) extends Logging with KafkaMetricsGroup {
 
   import kafka.log.Log._
@@ -706,6 +708,10 @@ class Log(val dir: File,
         this.recoveryPoint = offset
         lastflushedTime.set(time.milliseconds)
       }
+    }
+    if (this.config.replicatedStorage == true ) {
+      val requestKey = new TopicPartitionOperationKey(partition.topic, partition.partitionId)
+      partition.replicaManager.tryCompleteDelayedProduce(requestKey)
     }
   }
 

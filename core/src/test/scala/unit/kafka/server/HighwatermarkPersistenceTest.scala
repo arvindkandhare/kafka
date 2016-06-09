@@ -123,7 +123,7 @@ class HighwatermarkPersistenceTest {
       // add another partition and set highwatermark
       val topic2Partition0 = replicaManager.getOrCreatePartition(topic2, 0)
       // create leader log
-      val topic2Log0 = logManagers(0).createLog(TopicAndPartition(topic2, 0), LogConfig())
+      val topic2Log0 = logManagers(0).createLog(TopicAndPartition(topic2, 0), LogConfig(), null)
       // create a local replica for topic2
       val leaderReplicaTopic2Partition0 =  new Replica(configs.head.brokerId, topic2Partition0, SystemTime, 0, Some(topic2Log0))
       topic2Partition0.addReplicaIfNotExists(leaderReplicaTopic2Partition0)

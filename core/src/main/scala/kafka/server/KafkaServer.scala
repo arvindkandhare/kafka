@@ -616,6 +616,7 @@ class KafkaServer(val config: KafkaConfig, time: Time = SystemTime, threadNamePr
                    retentionCheckMs = config.logCleanupIntervalMs,
                    scheduler = kafkaScheduler,
                    brokerState = brokerState,
+                   server = this,
                    time = time)
   }
 

@@ -45,6 +45,7 @@ object StressTestLog {
                       config = LogConfig(logProprties),
                       recoveryPoint = 0L,
                       scheduler = time.scheduler,
+                      partition = null,
                       time = time)
     val writer = new WriterThread(log)
     writer.start()
