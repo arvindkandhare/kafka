@@ -1616,7 +1616,7 @@ public class FetcherTest {
                         partitionInfo.partition(),
                         partitionInfo.leader(),
                         Arrays.asList(partitionInfo.replicas()),
-                        Arrays.asList(partitionInfo.inSyncReplicas())));
+                        Arrays.asList(partitionInfo.inSyncReplicas()), false, -1));
             }
         }
 

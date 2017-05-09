@@ -208,7 +208,7 @@ public class KafkaProducerTest {
         final Cluster cluster = new Cluster(
                 "dummy",
                 Collections.singletonList(new Node(0, "host1", 1000)),
-                Arrays.asList(new PartitionInfo(topic, 0, null, null, null)),
+                Arrays.asList(new PartitionInfo(topic, 0, null, null, null, false, -1)),
                 Collections.<String>emptySet(),
                 Collections.<String>emptySet());
 
@@ -259,16 +259,16 @@ public class KafkaProducerTest {
         final Cluster initialCluster = new Cluster(
                 "dummy",
                 Collections.singletonList(new Node(0, "host1", 1000)),
-                Arrays.asList(new PartitionInfo(topic, 0, null, null, null)),
+                Arrays.asList(new PartitionInfo(topic, 0, null, null, null, false, -1)),
                 Collections.<String>emptySet(),
                 Collections.<String>emptySet());
         final Cluster extendedCluster = new Cluster(
                 "dummy",
                 Collections.singletonList(new Node(0, "host1", 1000)),
                 Arrays.asList(
-                        new PartitionInfo(topic, 0, null, null, null),
-                        new PartitionInfo(topic, 1, null, null, null),
-                        new PartitionInfo(topic, 2, null, null, null)),
+                        new PartitionInfo(topic, 0, null, null, null, false, -1),
+                        new PartitionInfo(topic, 1, null, null, null, false, -1),
+                        new PartitionInfo(topic, 2, null, null, null, false, -1)),
                 Collections.<String>emptySet(),
                 Collections.<String>emptySet());
 
@@ -369,7 +369,7 @@ public class KafkaProducerTest {
         final Cluster cluster = new Cluster(
                 "dummy",
                 Collections.singletonList(new Node(0, "host1", 1000)),
-                Arrays.asList(new PartitionInfo(topic, 0, null, null, null)),
+                Arrays.asList(new PartitionInfo(topic, 0, null, null, null, false, -1)),
                 Collections.<String>emptySet(),
                 Collections.<String>emptySet());
 

@@ -168,7 +168,8 @@ public class MetadataResponse extends AbstractResponse {
                         isrNodes.add(new Node((int) isrNode, "", -1));
                 }
 
-                partitionMetadata.add(new PartitionMetadata(partitionError, partition, leaderNode, replicaNodes, isrNodes));
+                partitionMetadata.add(new PartitionMetadata(partitionError, partition, leaderNode, replicaNodes,
+                        isrNodes, false, -1));
             }
 
             topicMetadata.add(new TopicMetadata(topicError, topic, isInternal, partitionMetadata));
@@ -256,7 +257,9 @@ public class MetadataResponse extends AbstractResponse {
                             partitionMetadata.partition,
                             partitionMetadata.leader,
                             partitionMetadata.replicas.toArray(new Node[0]),
-                            partitionMetadata.isr.toArray(new Node[0])));
+                            partitionMetadata.isr.toArray(new Node[0]),
+                            partitionMetadata.isSealed,
+                            partitionMetadata.parentPartitionId));
             }
         }
 
@@ -340,17 +343,23 @@ public class MetadataResponse extends AbstractResponse {
         private final Node leader;
         private final List<Node> replicas;
         private final List<Node> isr;
+        public boolean isSealed;
+        public int parentPartitionId;
 
         public PartitionMetadata(Errors error,
                                  int partition,
                                  Node leader,
                                  List<Node> replicas,
-                                 List<Node> isr) {
+                                 List<Node> isr,
+                                 boolean isSealed,
+                                 int parentPartitionId) {
             this.error = error;
             this.partition = partition;
             this.leader = leader;
             this.replicas = replicas;
             this.isr = isr;
+            this.isSealed = isSealed;
+            this.parentPartitionId = parentPartitionId;
         }
 
         public Errors error() {
@@ -372,6 +381,10 @@ public class MetadataResponse extends AbstractResponse {
         public List<Node> isr() {
             return isr;
         }
+
+        public boolean isSealed() {return isSealed;}
+
+        public int parentPartitionId() {return parentPartitionId;}
 
     }
 

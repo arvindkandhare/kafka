@@ -30,9 +30,9 @@ import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class DefaultPartitionerTest {
+public class ScaleupPartitionerTest {
     private byte[] keyBytes = "key".getBytes();
-    private Partitioner partitioner = new DefaultPartitioner();
+    private Partitioner partitioner = new ScaleupPartitioner();
     private Node node0 = new Node(0, "localhost", 99);
     private Node node1 = new Node(1, "localhost", 100);
     private Node node2 = new Node(2, "localhost", 101);
@@ -40,8 +40,8 @@ public class DefaultPartitionerTest {
     private String topic = "test";
     // Intentionally make the partition list not in partition order to test the edge cases.
     private List<PartitionInfo> partitions = asList(new PartitionInfo(topic, 1, null, nodes, nodes, false, -1),
-                                                    new PartitionInfo(topic, 2, node1, nodes, nodes, false, -1),
-                                                    new PartitionInfo(topic, 0, node0, nodes, nodes, false, -1));
+            new PartitionInfo(topic, 2, node1, nodes, nodes, false, -1),
+            new PartitionInfo(topic, 0, node0, nodes, nodes, false, -1));
     private Cluster cluster = new Cluster("clusterId", asList(node0, node1, node2), partitions,
             Collections.<String>emptySet(), Collections.<String>emptySet());
 
@@ -77,7 +77,7 @@ public class DefaultPartitionerTest {
                 new PartitionInfo(topicA, 1, node1, nodes, nodes, false, -1),
                 new PartitionInfo(topicA, 2, node2, nodes, nodes, false, -1),
                 new PartitionInfo(topicB, 0, node0, nodes, nodes, false, -1)
-                );
+                                                  );
         Cluster testCluster = new Cluster("clusterId", asList(node0, node1, node2), allPartitions,
                 Collections.<String>emptySet(), Collections.<String>emptySet());
 

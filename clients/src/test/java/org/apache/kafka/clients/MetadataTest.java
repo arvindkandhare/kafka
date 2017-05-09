@@ -237,8 +237,8 @@ public class MetadataTest {
         metadata.update(new Cluster(null,
                 Collections.singletonList(new Node(0, "host1", 1000)),
                 Arrays.asList(
-                    new PartitionInfo("topic", 0, null, null, null),
-                    new PartitionInfo("topic1", 0, null, null, null)),
+                    new PartitionInfo("topic", 0, null, null, null, false, -1),
+                    new PartitionInfo("topic1", 0, null, null, null, false, -1)),
                 Collections.<String>emptySet(),
                 Collections.<String>emptySet()),
             Collections.<String>emptySet(), 100);
@@ -267,8 +267,8 @@ public class MetadataTest {
                         "dummy",
                         Arrays.asList(new Node(0, "host1", 1000)),
                         Arrays.asList(
-                                new PartitionInfo("topic", 0, null, null, null),
-                                new PartitionInfo("topic1", 0, null, null, null)),
+                                new PartitionInfo("topic", 0, null, null, null, false, -1),
+                                new PartitionInfo("topic1", 0, null, null, null, false, -1)),
                         Collections.<String>emptySet(),
                         Collections.<String>emptySet()),
                 Collections.<String>emptySet(), 100);
@@ -296,8 +296,8 @@ public class MetadataTest {
                 null,
                 Arrays.asList(new Node(0, "host1", 1000)),
                 Arrays.asList(
-                    new PartitionInfo("topic", 0, null, null, null),
-                    new PartitionInfo("topic1", 0, null, null, null)),
+                    new PartitionInfo("topic", 0, null, null, null, false, -1),
+                    new PartitionInfo("topic1", 0, null, null, null, false, -1)),
                 Collections.<String>emptySet(),
                 Collections.<String>emptySet()),
             Collections.<String>emptySet(), 100);
@@ -324,8 +324,8 @@ public class MetadataTest {
                 "cluster",
                 Collections.singletonList(new Node(0, "host1", 1000)),
                 Arrays.asList(
-                    new PartitionInfo("topic", 0, null, null, null),
-                    new PartitionInfo("topic1", 0, null, null, null)),
+                    new PartitionInfo("topic", 0, null, null, null, false, -1),
+                    new PartitionInfo("topic1", 0, null, null, null, false, -1)),
                 Collections.<String>emptySet(),
                 Collections.<String>emptySet()),
             Collections.<String>emptySet(), 100);
@@ -336,8 +336,8 @@ public class MetadataTest {
                 "cluster",
                 Arrays.asList(new Node(0, "host1", 1000)),
                 Arrays.asList(
-                    new PartitionInfo("topic2", 0, null, null, null),
-                    new PartitionInfo("topic3", 0, null, null, null)),
+                    new PartitionInfo("topic2", 0, null, null, null, false, -1),
+                    new PartitionInfo("topic3", 0, null, null, null, false, -1)),
                 Collections.<String>emptySet(),
                 Collections.<String>emptySet()),
             Collections.<String>emptySet(), 100);

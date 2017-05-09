@@ -26,13 +26,22 @@ public class PartitionInfo {
     private final Node leader;
     private final Node[] replicas;
     private final Node[] inSyncReplicas;
+    private final boolean isSealed;
+    private final PartitionInfo left;
+    private final PartitionInfo right;
+    private final int parentPartition;
 
-    public PartitionInfo(String topic, int partition, Node leader, Node[] replicas, Node[] inSyncReplicas) {
+    public PartitionInfo(String topic, int partition, Node leader, Node[] replicas, Node[] inSyncReplicas,boolean
+            isSealed,int parentPartition) {
         this.topic = topic;
         this.partition = partition;
         this.leader = leader;
         this.replicas = replicas;
         this.inSyncReplicas = inSyncReplicas;
+        this.isSealed = isSealed;
+        this.parentPartition = parentPartition;
+        this.left = null;
+        this.right = null;
     }
 
     /**
@@ -49,6 +58,10 @@ public class PartitionInfo {
         return partition;
     }
 
+    /**
+     * Partition id of the parent
+     */
+    public int parentPartition() {return parentPartition;}
     /**
      * The node id of the node currently acting as a leader for this partition or null if there is no leader
      */

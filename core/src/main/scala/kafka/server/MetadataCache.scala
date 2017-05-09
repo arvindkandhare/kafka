@@ -77,7 +77,7 @@ class MetadataCache(brokerId: Int) extends Logging {
           case None =>
             debug(s"Error while fetching metadata for $topicPartition: leader not available")
             new MetadataResponse.PartitionMetadata(Errors.LEADER_NOT_AVAILABLE, partitionId, Node.noNode(),
-              replicaInfo.asJava, java.util.Collections.emptyList())
+              replicaInfo.asJava, java.util.Collections.emptyList(), false, -1)
 
           case Some(leader) =>
             val isr = leaderAndIsr.isr
@@ -88,15 +88,15 @@ class MetadataCache(brokerId: Int) extends Logging {
                 s"following brokers ${replicas.filterNot(replicaInfo.map(_.id).contains).mkString(",")}")
 
               new MetadataResponse.PartitionMetadata(Errors.REPLICA_NOT_AVAILABLE, partitionId, leader,
-                replicaInfo.asJava, isrInfo.asJava)
+                replicaInfo.asJava, isrInfo.asJava, false, -1)
             } else if (isrInfo.size < isr.size) {
               debug(s"Error while fetching metadata for $topicPartition: in sync replica information not available for " +
                 s"following brokers ${isr.filterNot(isrInfo.map(_.id).contains).mkString(",")}")
               new MetadataResponse.PartitionMetadata(Errors.REPLICA_NOT_AVAILABLE, partitionId, leader,
-                replicaInfo.asJava, isrInfo.asJava)
+                replicaInfo.asJava, isrInfo.asJava, false, -1)
             } else {
               new MetadataResponse.PartitionMetadata(Errors.NONE, partitionId, leader, replicaInfo.asJava,
-                isrInfo.asJava)
+                isrInfo.asJava, false, -1)
             }
         }
       }

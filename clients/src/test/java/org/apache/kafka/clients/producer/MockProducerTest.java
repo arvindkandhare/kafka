@@ -67,8 +67,8 @@ public class MockProducerTest {
 
     @Test
     public void testPartitioner() throws Exception {
-        PartitionInfo partitionInfo0 = new PartitionInfo(topic, 0, null, null, null);
-        PartitionInfo partitionInfo1 = new PartitionInfo(topic, 1, null, null, null);
+        PartitionInfo partitionInfo0 = new PartitionInfo(topic, 0, null, null, null, false, -1);
+        PartitionInfo partitionInfo1 = new PartitionInfo(topic, 1, null, null, null, false, -1);
         Cluster cluster = new Cluster(null, new ArrayList<Node>(0), asList(partitionInfo0, partitionInfo1),
                 Collections.<String>emptySet(), Collections.<String>emptySet());
         MockProducer<String, String> producer = new MockProducer<>(cluster, true, new DefaultPartitioner(), new StringSerializer(), new StringSerializer());

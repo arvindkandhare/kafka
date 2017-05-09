@@ -70,9 +70,9 @@ public class RecordAccumulatorTest {
     private TopicPartition tp1 = new TopicPartition(topic, partition1);
     private TopicPartition tp2 = new TopicPartition(topic, partition2);
     private TopicPartition tp3 = new TopicPartition(topic, partition3);
-    private PartitionInfo part1 = new PartitionInfo(topic, partition1, node1, null, null);
-    private PartitionInfo part2 = new PartitionInfo(topic, partition2, node1, null, null);
-    private PartitionInfo part3 = new PartitionInfo(topic, partition3, node2, null, null);
+    private PartitionInfo part1 = new PartitionInfo(topic, partition1, node1, null, null, false, -1);
+    private PartitionInfo part2 = new PartitionInfo(topic, partition2, node1, null, null, false, -1);
+    private PartitionInfo part3 = new PartitionInfo(topic, partition3, node2, null, null, false, -1);
     private MockTime time = new MockTime();
     private byte[] key = "key".getBytes();
     private byte[] value = "value".getBytes();

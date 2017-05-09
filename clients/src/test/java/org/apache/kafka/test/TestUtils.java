@@ -86,7 +86,7 @@ public class TestUtils {
             final String topic = topicPartition.getKey();
             final int partitions = topicPartition.getValue();
             for (int i = 0; i < partitions; i++)
-                parts.add(new PartitionInfo(topic, i, ns[i % ns.length], ns, ns));
+                parts.add(new PartitionInfo(topic, i, ns[i % ns.length], ns, ns, false, -1));
         }
         return new Cluster("kafka-cluster", asList(ns), parts, Collections.<String>emptySet(), INTERNAL_TOPICS);
     }

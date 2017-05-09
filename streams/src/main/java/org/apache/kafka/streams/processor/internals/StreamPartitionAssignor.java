@@ -378,7 +378,7 @@ public class StreamPartitionAssignor implements PartitionAssignor, Configurable 
 
             for (int partition = 0; partition < numPartitions; partition++) {
                 allRepartitionTopicPartitions.put(new TopicPartition(topic, partition),
-                        new PartitionInfo(topic, partition, null, new Node[0], new Node[0]));
+                        new PartitionInfo(topic, partition, null, new Node[0], new Node[0], false, -1));
             }
         }
 
@@ -602,7 +602,9 @@ public class StreamPartitionAssignor implements PartitionAssignor, Configurable 
                                                                            topicPartition.partition(),
                                                                            null,
                                                                            new Node[0],
-                                                                           new Node[0]));
+                                                                           new Node[0],
+                                                                    false,
+                                                            -1));
             }
         }
         metadataWithInternalTopics = Cluster.empty().withPartitions(topicToPartitionInfo);
