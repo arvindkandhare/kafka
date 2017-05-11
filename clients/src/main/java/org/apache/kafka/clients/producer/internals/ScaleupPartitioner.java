@@ -16,6 +16,8 @@
  */
 package org.apache.kafka.clients.producer.internals;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -25,6 +27,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.kafka.clients.producer.Partitioner;
 import org.apache.kafka.common.Cluster;
@@ -79,6 +82,10 @@ public class ScaleupPartitioner implements Partitioner {
     */
     private List<PartitionInfo> createTreeForParts(List<PartitionInfo> availablePartitions) {
     // TBD:
+        return new ArrayList<PartitionInfo>((Collection<? extends PartitionInfo>) availablePartitions.stream().collect(Collectors.groupingBy
+                (PartitionInfo::parentPartition,
+                Collectors
+                .counting())));
     }
 
     private int nextValue(String topic) {

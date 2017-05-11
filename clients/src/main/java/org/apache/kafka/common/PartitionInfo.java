@@ -61,7 +61,7 @@ public class PartitionInfo {
     /**
      * Partition id of the parent
      */
-    public int parentPartition() {return parentPartition;}
+    public Integer parentPartition() {return parentPartition;}
     /**
      * The node id of the node currently acting as a leader for this partition or null if there is no leader
      */
